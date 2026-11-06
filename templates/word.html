@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block title %}{{ word.diacritics or word.arabic_word }} — قاموس الإشارات{% endblock %}
+
+{% block content %}
+<a href="/lesson/{{ word.lesson_id }}" class="inline-flex items-center text-teal hover:text-deep-blue font-medium mb-6">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+    </svg>
+    العودة للدرس: {{ word.lesson_title }}
+</a>
+
+<div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+    <!-- Word Header -->
+    <div class="bg-gradient-to-br from-teal to-deep-blue text-white p-8 md:p-12 text-center relative">
+        <button data-fav-toggle="{{ word.id }}"
+                class="absolute top-4 left-4 text-3xl text-gray-400 hover:text-coral transition"
+                title="أضف للمفضلة">☆</button>
+
+        <p class="text-warm-yellow font-bold mb-2 text-sm">{{ word.unit_title }} › {{ word.lesson_title }}</p>
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-3 leading-tight">
+            {{ word.diacritics or word.arabic_word }}
+        </h1>
+        {% if word.meaning %}
+        <p class="text-lg md:text-xl opacity-90">{{ word.meaning }}</p>
+        {% endif %}
+
+        <button id="tts-btn" data-word="{{ word.arabic_word }}"
+                class="mt-4 bg-white/20 hover:bg-white/30 text-white font-bold py-2 px-5 rounded-full text-sm transition inline-flex items-center gap-2">
+            🔊 استمع للنطق
+        </button>
+    </div>
+
+    <!-- Animated Illustration -->
+    <div class="bg-blue-50 p-8 md:p-12 flex items-center justify-center min-h-[250px]">
+        <div class="text-center">
+            <div class="text-9xl mb-4 animate-bounce">{{ illustration }}</div>
+            <p class="text-gray-500 font-medium">رسم توضيحي: {{ word.arabic_word }}</p>
+        </div>
+    </div>
+
+    <!-- Sign Language Section -->
+    <div class="p-8 md:p-12 border-t">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-coral mb-6 flex items-center justify-center gap-3">
+            <span class="text-4xl">🤟</span>
+            لغة الإشارة السعودية
+        </h2>
+
+        {% if sign_resource and sign_resource.official_url %}
+            <div class="bg-gray-50 rounded-2xl p-6 md:p-8 text-center">
+                <p class="text-gray-700 mb-5 text-lg">
+                    يمكنك مشاهدة الإشارة المعتمدة على الموقع الرسمي للجمعية السعودية للإعاقة السمعية:
+                </p>
+                <a href="{{ sign_resource.official_url }}" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-2 bg-teal hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-full text-lg shadow-lg transition transform hover:scale-105">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    مشاهدة الإشارة على موقع SSHI
+                </a>
+                <p class="text-xs text-gray-500 mt-4">المصدر: {{ sign_resource.official_source or 'SSHI' }}</p>
+            </div>
+
+            {% if sign_resource.verification_status == 'Verified' %}
+                <div class="mt-5 text-center">
+                    <span class="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold bg-green-100 text-green-800">
+                        ✅ إشارة موثقة ومعتمدة
+                    </span>
+                </div>
+            {% else %}
+                <div class="mt-5 text-center">
+                    <span class="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold bg-yellow-100 text-yellow-800">
+                        ⚠️ تحتاج مراجعة
+                    </span>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="bg-gray-50 rounded-2xl p-8 text-center">
+                <div class="text-5xl mb-3">🔍</div>
+                <p class="text-gray-700 font-bold text-lg">الإشارة غير متوفرة حالياً</p>
+                <p class="text-sm text-gray-500 mt-2">جاري العمل على توثيق الإشارة من المصادر الرسمية.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Navigation -->
+    <div class="bg-gray-50 p-6 flex justify-between items-center border-t">
+        <button id="prev-btn"
+                class="flex items-center text-teal hover:text-deep-blue font-bold disabled:opacity-40 disabled:cursor-not-allowed transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="hidden sm:inline">السابقة</span>
+        </button>
+
+        <div class="text-center">
+            <span class="text-xs text-gray-400">⌨️ استخدم ← → للتنقل</span>
+        </div>
+
+        <button id="next-btn"
+                class="flex items-center text-teal hover:text-deep-blue font-bold disabled:opacity-40 disabled:cursor-not-allowed transition">
+            <span class="hidden sm:inline">التالية</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+    </div>
+</div>
+
+<script>
+    // Mark this word as viewed in progress
+    const vocabId = {{ word.id }};
+    
+    // Add to progress
+    const progress = JSON.parse(localStorage.getItem('lughaty_progress') || '[]');
+    if (!progress.includes(vocabId)) {
+        progress.push(vocabId);
+        localStorage.setItem('lughaty_progress', JSON.stringify(progress));
+    }
+
+    // Load navigation and enable arrow keys
+    async function loadNavigation() {
+        try {
+            const res = await fetch(`/api/words/${vocabId}/navigate`);
+            const data = await res.json();
+            
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            if (data.prev_id) {
+                prevBtn.onclick = () => window.location.href = `/word/${data.prev_id}`;
+            } else {
+                prevBtn.disabled = true;
+            }
+
+            if (data.next_id) {
+                nextBtn.onclick = () => window.location.href = `/word/${data.next_id}`;
+            } else {
+                nextBtn.disabled = true;
+            }
+
+            // Enable arrow key navigation
+            document.addEventListener('keydown', (e) => {
+                // Don't navigate if user is typing in an input
+                if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+
+                if (e.key === 'ArrowRight' && data.prev_id) {
+                    window.location.href = `/word/${data.prev_id}`;
+                } else if (e.key === 'ArrowLeft' && data.next_id) {
+                    window.location.href = `/word/${data.next_id}`;
+                }
+            });
+        } catch (err) {
+            console.error('Navigation error:', err);
+        }
+    }
+    
+    loadNavigation();
+</script>
+{% endblock %}

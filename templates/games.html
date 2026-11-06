@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}الألعاب والتحديات{% endblock %}
+
+{% block content %}
+<div class="text-center mb-10">
+    <h1 class="text-4xl font-extrabold text-deep-blue mb-2">🎮 الألعاب والتحديات</h1>
+    <p class="text-gray-600">تعلم واستمتع! تقدمك يُحفظ تلقائياً في متصفحك.</p>
+</div>
+
+<!-- Stats Dashboard -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+    <div class="bg-white p-4 rounded-2xl shadow text-center border-t-4 border-warm-orange">
+        <div class="text-3xl mb-1">🔥</div>
+        <div class="text-sm text-gray-500">السلسلة اليومية</div>
+        <div class="text-2xl font-bold text-deep-blue" data-streak-count>0</div>
+    </div>
+    <div class="bg-white p-4 rounded-2xl shadow text-center border-t-4 border-teal">
+        <div class="text-3xl mb-1">📚</div>
+        <div class="text-sm text-gray-500">كلمات تم تعلمها</div>
+        <div class="text-2xl font-bold text-deep-blue" data-learned-count>0</div>
+    </div>
+    <div class="bg-white p-4 rounded-2xl shadow text-center border-t-4 border-soft-purple">
+        <div class="text-3xl mb-1">🧠</div>
+        <div class="text-sm text-gray-500">أعلى نتيجة (ذاكرة)</div>
+        <div class="text-2xl font-bold text-deep-blue" id="best-memory">0</div>
+    </div>
+    <div class="bg-white p-4 rounded-2xl shadow text-center border-t-4 border-coral">
+        <div class="text-3xl mb-1">⚡</div>
+        <div class="text-sm text-gray-500">أعلى نتيجة (تحدي)</div>
+        <div class="text-2xl font-bold text-deep-blue" id="best-quiz">0</div>
+    </div>
+</div>
+
+<!-- Challenges -->
+<div class="bg-gradient-to-r from-soft-purple to-teal text-white rounded-3xl p-8 mb-10 shadow-lg">
+    <h2 class="text-2xl font-bold mb-4">🏆 التحديات اليومية</h2>
+    <div class="space-y-3">
+        <div class="flex items-center gap-3 bg-white/20 p-3 rounded-xl">
+            <span class="text-2xl">⭐</span>
+            <span class="text-white font-medium">تعلم 5 كلمات جديدة اليوم</span>
+            <span class="mr-auto text-sm bg-white/30 px-2 py-1 rounded text-white" id="chal-1">0/5</span>
+        </div>
+        <div class="flex items-center gap-3 bg-white/20 p-3 rounded-xl">
+            <span class="text-2xl">🎯</span>
+            <span class="text-white font-medium">احصل على 100 في تحدي السرعة</span>
+            <span class="mr-auto text-sm bg-white/30 px-2 py-1 rounded text-white" id="chal-2">غير مكتمل</span>
+        </div>
+    </div>
+</div>
+
+<!-- Games Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <a href="/game/memory" class="bg-white rounded-3xl shadow-md p-8 border-b-8 border-soft-purple hover:-translate-y-2 transition text-center">
+        <div class="text-6xl mb-4">🧠</div>
+        <h3 class="text-2xl font-bold text-deep-blue mb-2">لعبة الذاكرة</h3>
+        <p class="text-gray-600">طابق الكلمة بمعناها الصحيح. كم حركة ستحتاج؟</p>
+    </a>
+    
+    <a href="/game/quiz" class="bg-white rounded-3xl shadow-md p-8 border-b-8 border-warm-orange hover:-translate-y-2 transition text-center">
+        <div class="text-6xl mb-4">⚡</div>
+        <h3 class="text-2xl font-bold text-deep-blue mb-2">تحدي السرعة</h3>
+        <p class="text-gray-600">10 أسئلة سريعة. اختر المعنى الصحيح قبل انتهاء الوقت!</p>
+    </a>
+</div>
+
+<script>
+    // Load stats into dashboard
+    const scores = JSON.parse(localStorage.getItem('lughaty_scores') || '{"memory":0,"quiz":0}');
+    document.getElementById('best-memory').textContent = scores.memory;
+    document.getElementById('best-quiz').textContent = scores.quiz;
+    
+    const learned = JSON.parse(localStorage.getItem('lughaty_progress') || '[]');
+    document.getElementById('chal-1').textContent = `${Math.min(learned.length, 5)}/5`;
+    document.getElementById('chal-2').textContent = scores.quiz >= 100 ? '✅ مكتمل' : 'غير مكتمل';
+</script>
+{% endblock %}

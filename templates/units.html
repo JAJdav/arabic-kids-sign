@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}الوحدات الدراسية{% endblock %}
+
+{% block content %}
+<h2 class="text-3xl font-extrabold text-deep-blue mb-8 text-center">اختر وحدة دراسية للبدء</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% set colors = ['primary', 'orange', 'purple', 'green'] %}
+    {% set icons  = ['🤝', '🇸🇦', '🕌', '🚌'] %}
+    {% for unit in units %}
+    <a href="/unit/{{ unit.id }}" class="bg-white rounded-2xl shadow-md p-6 border-t-4 border-{{ colors[loop.index0 % 4] }} hover:-translate-y-1 transition">
+        <div class="flex items-center justify-between mb-4">
+            <span class="text-5xl">{{ icons[loop.index0 % 4] }}</span>
+            <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">الوحدة {{ unit.unit_order }}</span>
+        </div>
+        <h3 class="text-xl font-bold text-deep-blue mb-2">{{ unit.title }}</h3>
+        <p class="text-gray-600 text-sm">اضغط هنا لعرض الدروس والمفردات</p>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

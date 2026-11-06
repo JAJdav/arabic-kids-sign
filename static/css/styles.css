@@ -1,0 +1,129 @@
+/* ============================================
+   لغتي بالإشارة — Custom Styles
+   ============================================ */
+
+/* Base */
+body {
+    font-family: 'Tajawal', sans-serif;
+    background-color: #F8FAFC;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Better Arabic text rendering */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Tajawal', sans-serif;
+    letter-spacing: 0;
+}
+
+/* Word chips hover effect */
+.word-chip {
+    transition: all 0.2s ease;
+}
+.word-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(8, 127, 192, 0.25);
+}
+
+/* Card hover lift */
+.card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom scrollbar for RTL */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+    background: #087FC0;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #0757B8;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Focus styles for accessibility */
+a:focus, button:focus {
+    outline: 3px solid #F3A51C;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Print styles */
+@media print {
+    header, footer, #prev-btn, #next-btn {
+        display: none !important;
+    }
+}
+
+/* ============ Search Modal ============ */
+#search-modal input:focus {
+    outline: none;
+}
+
+kbd {
+    font-family: 'Tajawal', monospace;
+    font-size: 0.75rem;
+}
+
+/* ============ Favorite Star Animation ============ */
+[data-favorite-toggle] {
+    transition: transform 0.2s ease, color 0.2s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+[data-favorite-toggle]:hover {
+    transform: scale(1.2);
+}
+[data-favorite-toggle].text-red-500 {
+    animation: heartPop 0.4s ease;
+}
+
+@keyframes heartPop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.4); }
+    100% { transform: scale(1); }
+}
+
+/* ============ TTS Button Pulse ============ */
+#tts-btn.animate-pulse {
+    animation: ttsPulse 1.5s ease;
+}
+
+@keyframes ttsPulse {
+    0%, 100% { background-color: rgba(255,255,255,0.2); }
+    50%      { background-color: rgba(255,255,255,0.5); }
+}
+
+/* ============ Progress Badge ============ */
+[data-progress-count] {
+    display: inline-block;
+}

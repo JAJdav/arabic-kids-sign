@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}لغتي بالإشارة{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/characters.css') }}">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 'tajawal': ['Tajawal', 'sans-serif'] },
+                    colors: {
+                        'warm-yellow': '#FFD93D',
+                        'teal': '#4ECDC4',
+                        'coral': '#FF6B6B',
+                        'soft-purple': '#A78BFA',
+                        'warm-orange': '#F4A261',
+                        'deep-blue': '#264653',
+                        'cream': '#FFF8E7',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-tajawal bg-cream text-deep-blue min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-teal text-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center gap-4">
+            <a href="/" class="flex items-center gap-2 flex-shrink-0">
+                <div id="header-character"></div>
+                <h1 class="text-xl md:text-2xl font-extrabold">لغتي بالإشارة</h1>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 text-base font-medium">
+                <a href="/" class="hover:text-warm-yellow transition">الرئيسية</a>
+                <a href="/units" class="hover:text-warm-yellow transition">الوحدات</a>
+                <a href="/games" class="hover:text-warm-yellow transition">🎮 الألعاب</a>
+                <a href="/favorites" class="hover:text-warm-yellow transition flex items-center gap-1">
+                    المفضلة
+                    <span data-fav-count class="bg-coral text-white text-xs px-2 py-0.5 rounded-full">0</span>
+                </a>
+            </nav>
+
+            <div class="flex items-center gap-2">
+                <button id="search-open-btn" class="bg-white/20 hover:bg-white/30 p-2 rounded-full transition" title="بحث (Ctrl+K)">
+                    🔍
+                </button>
+                <button id="mobile-menu-btn" class="md:hidden text-2xl">☰</button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-deep-blue px-4 pb-4">
+            <a href="/" class="block py-2 hover:text-warm-yellow">الرئيسية</a>
+            <a href="/units" class="block py-2 hover:text-warm-yellow">الوحدات</a>
+            <a href="/games" class="block py-2 hover:text-warm-yellow">🎮 الألعاب</a>
+            <a href="/favorites" class="block py-2 hover:text-warm-yellow">المفضلة</a>
+        </div>
+    </header>
+
+    <!-- Search Modal -->
+    <div id="search-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-20 px-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden">
+            <div class="flex items-center gap-3 p-4 border-b">
+                <span class="text-2xl">🔍</span>
+                <input id="search-input" type="text" placeholder="ابحث عن كلمة... (مثال: طائرة)"
+                       class="flex-1 text-lg outline-none" autocomplete="off">
+                <button id="search-close-btn" class="text-gray-400 hover:text-gray-600 text-2xl">×</button>
+            </div>
+            <div id="search-results" class="max-h-96 overflow-y-auto"></div>
+            <div class="bg-gray-50 p-3 text-xs text-gray-500 text-center">
+                اضغط <kbd class="bg-white border px-1.5 py-0.5 rounded">Esc</kbd> للإغلاق
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-deep-blue text-white text-center py-6 mt-8">
+        <p class="text-sm">© 2026 لغتي بالإشارة — مشروع تعليمي تفاعلي</p>
+        <p class="text-xs mt-1 opacity-80">إشارات موثقة من الجمعية السعودية للإعاقة السمعية (SSHI)</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/characters.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

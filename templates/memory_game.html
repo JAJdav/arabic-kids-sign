@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}لعبة الذاكرة{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <a href="/games" class="inline-flex items-center text-primary hover:text-deep-blue font-medium mb-6">
+        ← العودة للتحديات
+    </a>
+    
+    <div class="text-center mb-6">
+        <h1 class="text-3xl font-extrabold text-deep-blue mb-2">🧠 لعبة الذاكرة</h1>
+        <p class="text-gray-600">طابق الكلمة بمعناها!</p>
+    </div>
+
+    <div id="memory-status" class="text-center text-lg font-bold text-purple mb-4">جاري التحميل...</div>
+
+    <div id="memory-board" class="grid grid-cols-4 gap-3 md:gap-4">
+        <!-- Cards injected by JS -->
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}الرئيسية — لغتي بالإشارة{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Characters -->
+<section class="relative text-center py-10 md:py-16">
+    <div class="max-w-4xl mx-auto">
+        <!-- Character Cast -->
+        <div class="flex justify-center items-end gap-4 mb-8">
+            <div class="float" style="animation-delay: 0s;">
+                <div id="char-teacher"></div>
+            </div>
+            <div class="celebrate">
+                <div id="char-mascot"></div>
+            </div>
+            <div class="float" style="animation-delay: 1s;">
+                <div id="char-peer"></div>
+            </div>
+        </div>
+
+        <h2 class="text-4xl md:text-5xl font-extrabold text-deep-blue mb-4 leading-tight">
+            تعلم، العب، وأشر!
+        </h2>
+        <p class="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
+            منصة تفاعلية لتعليم مفردات منهج <span class="font-bold text-teal">"لغتي الجميلة"</span>
+            للصف الثالث الابتدائي، مقترنة بلغة الإشارة السعودية المعتمدة.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="/units" class="bg-warm-orange hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-full text-lg shadow-lg transition transform hover:scale-105">
+                ابدأ التعلم 🚀
+            </a>
+            <a href="/units" class="bg-teal hover:bg-teal-700 text-white font-bold py-4 px-8 rounded-full text-lg shadow-lg transition transform hover:scale-105">
+                قاموس الإشارات 📖
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Features with DIFFERENT characters per card -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
+    <div class="bg-white p-6 rounded-2xl shadow-md text-center border-t-4 border-teal hover:-translate-y-1 transition">
+        <div id="feat-book" class="mx-auto mb-3" style="width: 100px; height: 100px;"></div>
+        <h3 class="text-xl font-bold text-teal mb-2">منهج لغتي الجميلة</h3>
+        <p class="text-gray-600 text-sm">مفردات وجمل مستخرجة مباشرة من كتاب الطالب.</p>
+    </div>
+    <div class="bg-white p-6 rounded-2xl shadow-md text-center border-t-4 border-soft-purple hover:-translate-y-1 transition">
+        <div id="feat-sparkle" class="mx-auto mb-3" style="width: 100px; height: 100px;"></div>
+        <h3 class="text-xl font-bold text-soft-purple mb-2">رسومات توضيحية</h3>
+        <p class="text-gray-600 text-sm">صور جذابة تساعد الطفل على ربط الكلمة بالمعنى.</p>
+    </div>
+    <div class="bg-white p-6 rounded-2xl shadow-md text-center border-t-4 border-coral hover:-translate-y-1 transition">
+        <div id="feat-sign" class="mx-auto mb-3" style="width: 100px; height: 100px;"></div>
+        <h3 class="text-xl font-bold text-coral mb-2">لغة إشارة معتمدة</h3>
+        <p class="text-gray-600 text-sm">إشارات موثقة من الجمعية السعودية للإعاقة السمعية.</p>
+    </div>
+</section>
+
+<!-- Featured Word -->
+{% if featured %}
+<section class="bg-gradient-to-r from-teal to-deep-blue text-white rounded-3xl p-8 md:p-12 my-12 shadow-xl relative overflow-hidden">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+        <div>
+            <p class="text-warm-yellow font-bold mb-2">⭐ كلمة اليوم</p>
+            <h3 class="text-4xl md:text-5xl font-extrabold mb-2">{{ featured.diacritics or featured.arabic_word }}</h3>
+            <p class="text-lg opacity-90">{{ featured.meaning }}</p>
+        </div>
+        <a href="/word/{{ featured.id }}" class="bg-warm-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition transform hover:scale-110">
+            تعلم إشارتها ←
+        </a>
+    </div>
+</section>
+{% endif %}
+
+<!-- Units Preview -->
+<section class="my-12">
+    <h2 class="text-3xl font-extrabold text-deep-blue mb-6 text-center">الوحدات الدراسية</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% set colors = ['teal', 'warm-orange', 'soft-purple', 'coral'] %}
+        {% set icons  = ['🤝', '🇸🇦', '🕌', '🚌'] %}
+        {% for unit in units %}
+        <a href="/unit/{{ unit.id }}" class="bg-white rounded-2xl shadow-md p-6 border-t-4 border-{{ colors[loop.index0 % 4] }} hover:-translate-y-1 transition">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-4xl">{{ icons[loop.index0 % 4] }}</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">الوحدة {{ unit.unit_order }}</span>
+            </div>
+            <h3 class="text-lg font-bold text-deep-blue">{{ unit.title }}</h3>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Hero characters
+        document.getElementById('char-teacher').innerHTML = Characters.teacher(150, true);
+        document.getElementById('char-mascot').innerHTML = Characters.owl(180, true);
+        document.getElementById('char-peer').innerHTML = Characters.peer(140, true);
+        
+        // Feature cards - EACH WITH DIFFERENT CHARACTER
+        document.getElementById('feat-book').innerHTML = Characters.book(100, true);
+        document.getElementById('feat-sparkle').innerHTML = Characters.sparkle(100, true);
+        document.getElementById('feat-sign').innerHTML = Characters.signHands(100, true);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}تحدي السرعة{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <a href="/games" class="inline-flex items-center text-primary hover:text-deep-blue font-medium mb-6">
+        ← العودة للتحديات
+    </a>
+    
+    <div class="text-center mb-6">
+        <h1 class="text-3xl font-extrabold text-deep-blue mb-2">⚡ تحدي السرعة</h1>
+        <p class="text-gray-600">اختر المعنى الصحيح للكلمة</p>
+    </div>
+
+    <div id="quiz-status" class="text-center text-lg font-bold text-orange mb-4">جاري التحميل...</div>
+
+    <div id="quiz-container">
+        <!-- Questions injected by JS -->
+    </div>
+</div>
+{% endblock %}

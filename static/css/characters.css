@@ -1,0 +1,185 @@
+/* ============================================
+   Cartoon Character System — SVG Animations
+   ============================================ */
+
+/* ============ Color Palette ============ */
+:root {
+    --warm-yellow: #FFD93D;
+    --teal: #4ECDC4;
+    --coral: #FF6B6B;
+    --soft-purple: #A78BFA;
+    --warm-orange: #F4A261;
+    --deep-blue: #264653;
+    --cream: #FFF8E7;
+}
+
+/* ============ Base Character Styles ============ */
+.character-svg {
+    display: inline-block;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* ============ Eye Blinking Animation ============ */
+@keyframes blink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0.1); }
+}
+
+.eye-blink {
+    animation: blink 4s ease-in-out infinite;
+    transform-origin: center;
+}
+
+.eye-blink-delay {
+    animation: blink 4s ease-in-out infinite;
+    animation-delay: 0.5s;
+    transform-origin: center;
+}
+
+/* ============ Hand Waving Animation ============ */
+@keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(20deg); }
+    75% { transform: rotate(-15deg); }
+}
+
+.hand-wave {
+    animation: wave 2s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+.hand-wave-slow {
+    animation: wave 3s ease-in-out infinite;
+    animation-delay: 0.5s;
+    transform-origin: bottom center;
+}
+
+/* ============ Signing Hands Animation ============ */
+@keyframes sign {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(10deg); }
+}
+
+.hand-sign {
+    animation: sign 2s ease-in-out infinite;
+    transform-origin: center;
+}
+
+.hand-sign-alt {
+    animation: sign 2s ease-in-out infinite;
+    animation-delay: 1s;
+    transform-origin: center;
+}
+
+/* ============ Head Tilting ============ */
+@keyframes tilt {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(5deg); }
+}
+
+.head-tilt {
+    animation: tilt 3s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+/* ============ Celebration Bounce ============ */
+@keyframes celebrate {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.1); }
+}
+
+.celebrate {
+    animation: celebrate 1s ease-in-out infinite;
+}
+
+/* ============ Floating Animation ============ */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ============ Tail Wagging (for cat) ============ */
+@keyframes wag {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(20deg); }
+}
+
+.tail-wag {
+    animation: wag 1s ease-in-out infinite;
+    transform-origin: bottom left;
+}
+
+/* ============ Speech Bubble ============ */
+.speech-bubble {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    padding: 15px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 3px solid var(--teal);
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    right: 30px;
+    border-width: 15px 15px 0;
+    border-style: solid;
+    border-color: var(--teal) transparent;
+}
+
+/* ============ Accessibility: Reduced Motion ============ */
+@media (prefers-reduced-motion: reduce) {
+    .eye-blink,
+    .eye-blink-delay,
+    .hand-wave,
+    .hand-wave-slow,
+    .hand-sign,
+    .hand-sign-alt,
+    .head-tilt,
+    .celebrate,
+    .float,
+    .tail-wag {
+        animation: none !important;
+    }
+}
+
+/* ============ Character Containers ============ */
+.character-mascot {
+    width: 200px;
+    height: 200px;
+}
+
+.character-teacher {
+    width: 180px;
+    height: 220px;
+}
+
+.character-peer {
+    width: 160px;
+    height: 200px;
+}
+
+.character-animal {
+    width: 140px;
+    height: 140px;
+}
+
+/* ============ Interactive Hover ============ */
+.character-interactive {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.character-interactive:hover {
+    transform: scale(1.05);
+}
+
+.character-interactive:active {
+    transform: scale(0.95);
+}

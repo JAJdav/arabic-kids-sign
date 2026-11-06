@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{{ unit.title }}{% endblock %}
+
+{% block content %}
+<a href="/units" class="inline-flex items-center text-teal hover:text-deep-blue font-medium mb-6">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+    </svg>
+    العودة للوحدات
+</a>
+
+<!-- Unit Header -->
+<div class="bg-gradient-to-r from-teal to-deep-blue text-white rounded-3xl p-8 mb-8 shadow-lg">
+    <p class="text-warm-yellow font-bold mb-2">الوحدة {{ unit.unit_order }}</p>
+    <h2 class="text-3xl md:text-4xl font-extrabold">{{ unit.title }}</h2>
+</div>
+
+<h3 class="text-2xl font-bold text-deep-blue mb-6 flex items-center gap-2">
+    <span>📖</span> دروس هذه الوحدة
+</h3>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {% for lesson in lessons %}
+    <a href="/lesson/{{ lesson.id }}" class="bg-white rounded-2xl shadow-md p-6 border-r-4 border-soft-purple hover:-translate-y-1 transition">
+        <div class="flex items-start gap-3">
+            <div class="bg-soft-purple text-white rounded-full w-10 h-10 flex items-center justify-center font-bold flex-shrink-0">
+                {{ lesson.lesson_order }}
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-deep-blue mb-1">{{ lesson.title }}</h4>
+                <p class="text-sm text-gray-500">اضغط لعرض المفردات والإشارات</p>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

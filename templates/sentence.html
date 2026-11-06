@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}تعلم الجملة — لغتي بالإشارة{% endblock %}
+
+{% block content %}
+<a href="/lesson/{{ lesson.id }}" class="inline-flex items-center text-primary hover:text-deep-blue font-medium mb-6">
+    ← العودة للدرس: {{ lesson.title }}
+</a>
+
+<div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-8">
+    <div class="bg-gradient-to-br from-orange to-primary text-white p-8 md:p-12 text-center">
+        <p class="text-white/80 font-bold mb-2 text-sm">💬 جملة من درس: {{ lesson.title }}</p>
+        <h1 class="text-3xl md:text-5xl font-extrabold leading-loose">
+            {{ highlighted_text|safe }}
+        </h1>
+        <p class="text-sm text-white/70 mt-4">اضغط على أي كلمة ملونة لمعرفة معناها وإشارتها</p>
+    </div>
+</div>
+
+<!-- Vocabulary in this sentence -->
+<section>
+    <h3 class="text-2xl font-bold text-deep-blue mb-4 flex items-center gap-2">
+        <span>📝</span> مفردات هذه الجملة
+    </h3>
+    <div class="bg-white rounded-2xl shadow-md p-6">
+        <div class="flex flex-wrap gap-3">
+            {% for w in vocab %}
+            <a href="/word/{{ w.id }}" class="word-chip inline-flex items-center gap-2 bg-gray-50 hover:bg-primary hover:text-white text-gray-800 px-5 py-3 rounded-full text-lg font-bold border-2 border-gray-200 transition">
+                {% if w.verification_status == 'Verified' %}
+                    <span class="w-3 h-3 bg-green rounded-full"></span>
+                {% else %}
+                    <span class="w-3 h-3 bg-orange rounded-full"></span>
+                {% endif %}
+                {{ w.diacritics or w.arabic_word }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<style>
+    .highlight-word {
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        padding: 0 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+        border-bottom: 2px solid #F3A51C;
+    }
+    .highlight-word:hover {
+        background-color: rgba(255, 255, 255, 0.5);
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}
